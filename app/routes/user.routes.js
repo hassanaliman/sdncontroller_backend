@@ -25,20 +25,6 @@ module.exports = function(app) {
   );
 
   app.post(
-    "/api/content/setopenflow",
-    authJwt.verifyTokenPost,
-    authJwt.isAdmin,
-    controller.setOpenflow
-  );
-
-  app.post(
-    "/api/content/setfwd",
-    authJwt.verifyTokenPost, 
-    authJwt.isAdmin,
-    controller.setReactiveFwd
-  );
-
-  app.post(
     "/api/content/activate",
     authJwt.verifyTokenPost, 
     authJwt.isAdmin,
@@ -50,5 +36,11 @@ module.exports = function(app) {
     authJwt.verifyTokenPost, 
     authJwt.isAdmin,
     controller.deActivateApp
+  );
+
+  app.get(
+    "/api/content/device",
+    authJwt.verifyToken, authJwt.isAdmin,
+    controller.getDevice
   );
 };

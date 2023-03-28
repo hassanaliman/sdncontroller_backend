@@ -76,80 +76,6 @@ exports.userBoard = (req, res) => {
     req.end();
   };
 
-  exports.setOpenflow = (req, res) => {
-var options = {
-  'method': 'POST',
-  'hostname': '192.168.137.10',
-  'port': 8181,
-  'path': '/onos/v1/applications/org.onosproject.openflow/active',
-  'headers': {
-    'Authorization': 'Basic b25vczpyb2Nrcw=='
-  },
-  'maxRedirects': 20
-};
-
-var req = http.request(options, function (response) {
-  var chunks = [];
-
-  response.on("data", function (chunk) {
-    chunks.push(chunk);
-  });
-
-  response.on("end", function (chunk) {
-    var body = Buffer.concat(chunks);
-    // console.log(body.toString());
-    res.status(200).send(JSON.parse(body.toString()));
-  });
-
-  response.on("error", function (error) {
-    console.error(error);
-    res.status(503).send(error);
-  });
-});
-
-
-
-req.end();
-    
-}
-
-  exports.setReactiveFwd = (req, res) => {
-    var options = {
-      'method': 'POST',
-      'hostname': '192.168.137.10',
-      'port': 8181,
-      'path': '/onos/v1/applications/org.onosproject.fwd/active',
-      'headers': {
-        'Authorization': 'Basic b25vczpyb2Nrcw=='
-      },
-      'maxRedirects': 20
-    };
-    
-    var req = http.request(options, function (response) {
-      var chunks = [];
-    
-      response.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-    
-      response.on("end", function (chunk) {
-        var body = Buffer.concat(chunks);
-        console.log(body.toString());
-        res.status(200).send(JSON.parse(body.toString()));
-      });
-    
-      response.on("error", function (error) {
-        console.error(error);
-        res.status(503).send(error);
-      });
-    });
-    
-    
-    
-    req.end();
-        
-  }
-
   exports.activateApp = (req, res) => {
     var options = {
       'method': 'POST',
@@ -220,3 +146,36 @@ req.end();
 
     req.end();
   }
+
+  exports.getDevice = (req, res) => {
+    var options = {
+      'method': 'GET',
+      'hostname': '192.168.137.10',
+      'port': 8181,
+      'path': '/onos/v1/devices',
+      'headers': {
+        'Authorization': 'Basic b25vczpyb2Nrcw=='
+      },
+      'maxRedirects': 20
+    };
+    
+    var req = http.request(options, function (response) {
+      var chunks = [];
+    
+      response.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+    
+      response.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        res.status(200).send(JSON.parse(body.toString()));
+      });
+    
+      response.on("error", function (error) {
+        console.error(error);
+        res.status(503).send(error);
+      });
+    });
+    
+    req.end();
+  };
