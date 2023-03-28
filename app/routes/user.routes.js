@@ -19,7 +19,7 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/api/content/config",
+    "/api/content/app",
     authJwt.verifyToken, authJwt.isAdmin,
     controller.adminBoard
   );
@@ -42,5 +42,18 @@ module.exports = function(app) {
     "/api/content/device",
     authJwt.verifyToken, authJwt.isAdmin,
     controller.getDevice
+  );
+
+  app.post(
+    "/api/content/portconfig",
+    authJwt.verifyTokenPost, 
+    authJwt.isAdmin,
+    controller.portconfig
+  );
+
+  app.get(
+    "/api/content/config",
+    authJwt.verifyToken, authJwt.isAdmin,
+    controller.getConfig
   );
 };
