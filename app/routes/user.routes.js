@@ -56,4 +56,11 @@ module.exports = function(app) {
     authJwt.verifyToken, authJwt.isAdmin,
     controller.getConfig
   );
+
+  app.post(
+    "/api/content/portdelete",
+    authJwt.verifyTokenPost, 
+    authJwt.isAdmin,
+    controller.portdelete
+  );
 };

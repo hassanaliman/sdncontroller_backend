@@ -264,3 +264,40 @@ exports.userBoard = (req, res) => {
     
     request.end();
   };
+
+  exports.portdelete = (req, res) => {
+    var port = req.body.portId;
+    console.log(port)
+    var options = {
+      'method': 'DELETE',
+      'hostname': '192.168.137.10',
+      'port': 8181,
+      'path': `/onos/v1/network/configuration/ports/${encodeURIComponent(port)}`,
+      'headers': {
+        'Authorization': 'Basic b25vczpyb2Nrcw=='
+      },
+      'maxRedirects': 20
+    };
+    
+    var request = http.request(options, function (response) {
+      var chunks = [];
+    
+      response.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+    
+      response.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        //console.log(body);
+        res.status(200).send({
+          message: `${port} is Deleted`});
+      });
+    
+      response.on("error", function (error) {
+        console.error(error);
+        res.status(503).send(error);
+      });
+    });
+
+    request.end();
+  }
