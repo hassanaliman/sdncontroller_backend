@@ -63,4 +63,31 @@ module.exports = function(app) {
     authJwt.isAdmin,
     controller.portdelete
   );
+
+  app.post(
+    "/api/content/vplsconfig",
+    authJwt.verifyTokenPost, 
+    authJwt.isAdmin,
+    controller.vplsconfig
+  );
+
+  app.post(
+    "/api/content/vplsportconfig",
+    authJwt.verifyTokenPost, 
+    authJwt.isAdmin,
+    controller.vplsportconfig
+  );
+
+  app.get(
+    "/api/content/vpls",
+    authJwt.verifyToken, authJwt.isAdmin,
+    controller.vplsList
+  );
+
+  app.post(
+    "/api/content/delvpls",
+    authJwt.verifyTokenPost, 
+    authJwt.isAdmin,
+    controller.delVpls
+  );
 };
