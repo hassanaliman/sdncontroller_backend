@@ -90,4 +90,10 @@ module.exports = function(app) {
     authJwt.isAdmin,
     controller.delVpls
   );
+
+  app.get(
+    "/api/content/hosts",
+    authJwt.verifyToken, authJwt.isAdmin,
+    controller.getHost
+  );
 };

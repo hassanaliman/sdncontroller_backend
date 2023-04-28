@@ -1,4 +1,5 @@
 const express = require("express");
+
 const cors = require("cors");
 var bcrypt = require("bcryptjs");
 
@@ -27,9 +28,11 @@ db.sequelize.sync({force: true}).then(() => {
 });
 
 
-app.get("/", (req, res) => {
-    res.json({message: "Hello."});
-});
+
+  app.get("/", (req, res) => {
+    res.json({ message: "Hello" });
+})
+
 
 
 

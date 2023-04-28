@@ -1,7 +1,7 @@
 var http = require('follow-redirects').http;
 
 exports.allAccess = (req, res) => {
-    res.status(200).send("Public Content.");
+    res.status(200).send(`<h3 class="mt-3">Control-plane Manager</h3>`);
   };
   
 exports.userBoard = (req, res) => {
@@ -23,12 +23,9 @@ exports.userBoard = (req, res) => {
       chunks.push(chunk);
     });
   
-    response.on("end", function (chunk) {
+    response.on("end", function () {
       var body = Buffer.concat(chunks);
-      //console.log(body.toString());
-      //var data = JSON.parse(body.toString()); 
       res.status(200).send(JSON.parse(body.toString()));
-      //console.log(data.statistics[0].ports[0].bytesReceived);
     });
   
     response.on("error", function (error) {
@@ -59,12 +56,9 @@ exports.userBoard = (req, res) => {
         chunks.push(chunk);
       });
     
-      response.on("end", function (chunk) {
-        var body = Buffer.concat(chunks);
-        //console.log(body.toString());
-        //var data = JSON.parse(body.toString()); 
+      response.on("end", function () {
+        var body = Buffer.concat(chunks); 
         res.status(200).send(JSON.parse(body.toString()));
-        //console.log(data.statistics[0].ports[0].bytesReceived);
       });
     
       response.on("error", function (error) {
@@ -131,9 +125,8 @@ exports.userBoard = (req, res) => {
         chunks.push(chunk);
       });
     
-      response.on("end", function (chunk) {
+      response.on("end", function () {
         var body = Buffer.concat(chunks);
-        //console.log(body);
         res.status(200).send({
           message: `${name} is Deactivated`});
       });
@@ -202,8 +195,6 @@ exports.userBoard = (req, res) => {
       },
       'maxRedirects': 20
     };
-    // postData["interfaces"][0]["vlan"] = "100";
-    // console.log(postData);
 
     var request = http.request(options, function (response) {
       var chunks = [];
@@ -212,7 +203,7 @@ exports.userBoard = (req, res) => {
         chunks.push(chunk);
       });
     
-      response.on("end", function (chunk) {
+      response.on("end", function () {
         var body = Buffer.concat(chunks);
         console.log(body.toString());
         res.status(200).send({
@@ -248,12 +239,9 @@ exports.userBoard = (req, res) => {
         chunks.push(chunk);
       });
     
-      response.on("end", function (chunk) {
+      response.on("end", function () {
         var body = Buffer.concat(chunks);
-        //console.log(body.toString());
-        //var data = JSON.parse(body.toString()); 
         res.status(200).send(JSON.parse(body.toString()));
-        //console.log(data.statistics[0].ports[0].bytesReceived);
       });
     
       response.on("error", function (error) {
@@ -357,7 +345,6 @@ exports.userBoard = (req, res) => {
     var deviceId = req.body.deviceId;
     var vplsName = req.body.vplsName;
 
-    //console.log(vplsName, deviceId, portNum, portName);
 
     var postData = {
       "interfaces":[
@@ -466,6 +453,39 @@ exports.userBoard = (req, res) => {
       response.on("error", function (error) {
         console.error(error);
         res.status(503).send(error);
+      });
+    });
+
+    request.end();
+  }
+
+  exports.getHost = (req, res) => {
+    var options = {
+      'method': 'GET',
+      'hostname': '192.168.137.10',
+      'port': 8181,
+      'path': "/onos/v1/hosts",
+      'headers': {
+        'Authorization': 'Basic b25vczpyb2Nrcw=='
+      },
+      'maxRedirects': 20
+    };
+  
+    var request = http.request(options, function (response) {
+      var chunks = [];
+    
+      response.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+    
+      response.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+        res.status(200).send(body.toString());
+      });
+    
+      response.on("error", function (error) {
+        console.error(error);
       });
     });
 
